@@ -25,19 +25,16 @@ class Whatsappbot:
 
     def delete_message(self, contato):
         """
-            Will send a message via selenium to the indicated contact
+         This function will delete the last message sent.
         Parameters
         ----------
         contato : Enter the name of the contact or group
             Enter the name of the contact or group you want to send the message to, you can use a for or while for more than one group or contact
-        mensagem : Enter the message to be sent
-            Type the message you want to use, you can use a for or while for more than one message.
-
         Returns
         -------
         None.
-
         """
+
         # Click on search contact bar
         new_msg_button = WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located((By.XPATH, self.SEARCH_CONTACT)))
