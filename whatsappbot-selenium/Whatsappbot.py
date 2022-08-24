@@ -13,23 +13,17 @@ class Whatsappbot:
 
     def __init__(self):
         self.WPP_URL = "https://web.whatsapp.com/"
-        self.NEW_CHAT = '//*[@id="side"]/header/div[2]/div/span/div[2]/div/span'
         self.SEARCH_CONTACT = '//*[@id="side"]/div[1]/div/div/div[2]/div/div[2]'
         self.FIRST_CONTACT = '//*[@id="pane-side"]/div[1]/div/div/div[1]/div/div'
-        self.TYPE_MSG = '//*[@id="main"]/footer/div[1]/div[2]/div/div[2]'
-        self.SEND_BUTTON = '//*[@id="main"]/footer/div[1]/div[3]/button/span'
-        self.OPTION_BTN = "(//div[contains(@class,'message-out')]//div[@role='button'])[last()]"
-        self.DIALOG_OPTION = '//div[contains(@class, "QhSbI")]'
-        self.OPTION_DELETE = '//*[@id="app"]/div[1]/span[4]/div/ul/div/li[5]'
-        self.DELETE_BTN = "(//div[@data-animate-modal-popup='true']//div[@role='button'])[last()]"
-        self.FIRST_DIALOG_BTN = '//*[@id="app"]/div[1]/span[2]/div[1]/span/div[1]/div/div/div/div/div[2]/div[2]'
-        self.CHATBOX = '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]/p'
-        self.SEND_MESSAGE = '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[2]'
-        self.TEXT_BOX = '//*[@id="main"]/div[3]/div/div[2]/div[2]'
+        self.OPTION_BTN = "(//div[contains(@class, 'message-out')]//div[@class='_22Msk'])[last()]"
+        self.OPTION_DELETE = "(//div[contains(@class, '_2oldI')])[last()]"
+        self.DIALOG_CLICK = "(//div[@class='_3e9My'])"
+        self.OK_BTN = "(//div[contains(@class, '_2Zdgs')])"
+        self.DELETE_FOR_EVERYONE = "(//div[contains(@class, '_1zOyO')])"
         self.driver = webdriver.Chrome(ChromeDriverManager().install())
         self.driver.get(self.WPP_URL)
 
-    def send_message(self, contato, mensagem):
+    def delete_message(self, contato):
         """
             Will send a message via selenium to the indicated contact
         Parameters
@@ -44,124 +38,48 @@ class Whatsappbot:
         None.
 
         """
-
+        # Click on search contact bar
         new_msg_button = WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located((By.XPATH, self.SEARCH_CONTACT)))
         new_msg_button.click()
         sleep(1)
-        new_msg_button.send_keys("Shawn yap")
 
-        sleep(2)
-        print('....')
+        # type contact name into search contact bar
+        new_msg_button.send_keys(str(contato))
+        sleep(1)
+
+        # click on first contact
         first_contact = WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located((By.XPATH, self.FIRST_CONTACT)))
         first_contact.click()
+        sleep(1)
 
-        sleep(2)
-        chatbox = WebDriverWait(self.driver, 20).until(
-            EC.presence_of_element_located((By.XPATH, self.CHATBOX)))
-        chatbox.click()
-        chatbox.send_keys("testing out on selenium")
-
-        sleep(1.5)
-
-        # send_button = WebDriverWait(self.driver, 20).until(
-        #     EC.presence_of_element_located((By.XPATH, self.SEND_MESSAGE)))
-        # send_button.click()
-
-        # sleep(1.5)
-
-        # text_box = WebDriverWait(self.driver, 20).until(
-        #     EC.presence_of_element_located((By.XPATH, '// *[@id="main"]/div[3]/div/div[2]/div[2]/div[12]/div/div[1]/div[1]')))
-        # print(text_box.text)
-
-        # hover = ActionChains(self.driver).move_to_element(text_box)
-        # hover.perform()
-
-        # sleep(20)
-        # down_arrow = WebDriverWait(self.driver, 20).until(
-        #     EC.visibility_of_element_located((By.XPATH, '// *[@id="main"]/div[3]/div/div[2]/div[2]/div[12]/div/div[1]/span[2]/div/div/span')))
-        # print(down_arrow.text)
-        # down_arrow.click()
-
+        # Hover over last message sent by you
         btn_option = WebDriverWait(self.driver, 20).until(
-            EC.presence_of_element_located((By.XPATH, "(//div[contains(@class,'message-out')]//div[@class='_22Msk'])[last()]")))
-        print("success")
+            EC.presence_of_element_located((By.XPATH, self.OPTION_BTN)))
         hover = ActionChains(self.driver).move_to_element(btn_option)
         hover.perform()
 
+        # Click drop down menu on message
         dialog_click = WebDriverWait(self.driver, 20).until(
-            EC.presence_of_element_located((By.XPATH, "(//div[@class='_3e9My'])")))
+            EC.presence_of_element_located((By.XPATH, self.DIALOG_CLICK)))
         dialog_click.click()
         sleep(1.5)
-        # Then select Delete message option by clicking on
+
+        # Then select Delete message option by clicking on it
         btn_option_delete = WebDriverWait(self.driver, 20).until(
-            EC.presence_of_element_located((By.XPATH, "(//div[contains(@class, '_2oldI')])[last()]")))
+            EC.presence_of_element_located((By.XPATH, self.OPTION_DELETE)))
         btn_option_delete.click()
         sleep(1.5)
 
+        # select the delete for everybody option
         delete_for_everybody = WebDriverWait(self.driver, 20).until(
-            EC.presence_of_element_located((By.XPATH, "(//div[contains(@class, '_1zOyO')])")))
+            EC.presence_of_element_located((By.XPATH, self.DELETE_FOR_EVERYONE)))
         delete_for_everybody.click()
-
         sleep(0.5)
 
+        # click ok in the popup that appeared
         ok_button = WebDriverWait(self.driver, 20).until(
-            EC.presence_of_element_located((By.XPATH, "(//div[contains(@class, '_2Zdgs')])")))
+            EC.presence_of_element_located((By.XPATH, self.OK_BTN)))
         ok_button.click()
-
-        # #delete that message for everyone
-        # delete = self.driver.find_element_by_xpath(self.DELETE_BTN)
-        # delete.click()
-        # sleep(1)
         sleep(2)
-
-    def delete_message(self, contato):
-        """
-         This function will delete the last message sent.
-        Parameters
-        ----------
-        contato : Enter the name of the contact or group
-            Enter the name of the contact or group you want to send the message to, you can use a for or while for more than one group or contact
-
-        Returns
-        -------
-        None.
-
-
-        """
-        # Open new chat on whatsapp web
-        new_msg_button = self.driver.find_element_by_xpath(self.NEW_CHAT)
-        new_msg_button.click()
-        sleep(1)
-        # Search the contact
-        search_field = self.driver.find_element_by_xpath(self.SEARCH_CONTACT)
-        search_field.click()
-        search_field.send_keys(contato)
-        sleep(1)
-        # Click on the firts contact with the name that I told
-        first_contact = self.driver.find_element_by_xpath(self.FIRST_CONTACT)
-        first_contact.click()
-        sleep(1.5)
-        # open the dialog by clicking this button
-        btn_option = self.driver.find_element_by_xpath(self.OPTION_BTN)
-        hover = ActionChains(self.driver).move_to_element(btn_option)
-        hover.perform()
-        dialog_click = self.driver.find_element_by_xpath(self.DIALOG_OPTION)
-        dialog_click.click()
-        sleep(1.5)
-        # Then select Delete message option by clicking on
-        btn_option_delete = self.driver.find_element_by_xpath(
-            self.OPTION_DELETE)
-        btn_option_delete.click()
-        sleep(1.5)
-        # delete that message for everyone
-        delete = self.driver.find_element_by_xpath(self.DELETE_BTN)
-        delete.click()
-        sleep(1)
-        # Confirm the option
-        # Criar opção para checar se aparece a caixa de diálogo
-        try:
-            self.driver.find_element_by_xpath(self.FIRST_DIALOG_BTN).click()
-        except:
-            pass
