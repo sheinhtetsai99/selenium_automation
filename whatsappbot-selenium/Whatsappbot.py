@@ -71,33 +71,50 @@ class Whatsappbot:
 
         # sleep(1.5)
 
-        text_box = WebDriverWait(self.driver, 20).until(
-            EC.presence_of_element_located((By.XPATH, '// *[@id="main"]/div[3]/div/div[2]/div[2]/div[12]/div/div[1]/div[1]')))
-        print(text_box.text)
+        # text_box = WebDriverWait(self.driver, 20).until(
+        #     EC.presence_of_element_located((By.XPATH, '// *[@id="main"]/div[3]/div/div[2]/div[2]/div[12]/div/div[1]/div[1]')))
+        # print(text_box.text)
 
-        # EC.visibility_of_element_located((By.XPATH, '(//*[@id = "main"]/div[3]/div/div[2]/div[3])[last()]')))
+        # hover = ActionChains(self.driver).move_to_element(text_box)
+        # hover.perform()
 
-# //*[@id="main"]/div[3]/div/div[2]/div[2]/div[12]/div/div[1]/div[1]
-# //*[@id = "main"]/div[3]/div/div[2]/div[2]/div[13]/div/div[1]/div[1]
+        # sleep(20)
+        # down_arrow = WebDriverWait(self.driver, 20).until(
+        #     EC.visibility_of_element_located((By.XPATH, '// *[@id="main"]/div[3]/div/div[2]/div[2]/div[12]/div/div[1]/span[2]/div/div/span')))
+        # print(down_arrow.text)
+        # down_arrow.click()
 
-        hover = ActionChains(self.driver).move_to_element(text_box)
+        btn_option = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.XPATH, "(//div[contains(@class,'message-out')]//div[@class='_22Msk'])[last()]")))
+        print("success")
+        hover = ActionChains(self.driver).move_to_element(btn_option)
         hover.perform()
 
-        '//*[@id = "main"]/div[3]/div/div[2]/div[2]/div[12]/div/div[1]/span[2]/div/div/span'
+        dialog_click = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.XPATH, "(//div[@class='_3e9My'])")))
+        dialog_click.click()
+        sleep(1.5)
+        # Then select Delete message option by clicking on
+        btn_option_delete = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.XPATH, "(//div[contains(@class, '_2oldI')])[last()]")))
+        btn_option_delete.click()
+        sleep(1.5)
 
+        delete_for_everybody = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.XPATH, "(//div[contains(@class, '_1zOyO')])")))
+        delete_for_everybody.click()
 
-# //*[@id = "main"]/div[3]/div/div[2]/div[2]/div[12]/div/div[1]/span[2]/div/div/span
-        sleep(20)
-        down_arrow = WebDriverWait(self.driver, 20).until(
-            EC.visibility_of_element_located((By.XPATH, '// *[@id="main"]/div[3]/div/div[2]/div[2]/div[12]/div/div[1]/span[2]/div/div/span')))
-        print(down_arrow.text)
-        down_arrow.click()
+        sleep(0.5)
 
-        # text_box = WebDriverWait(self.driver, 20).until(
-        #     EC.presence_of_element_located((By.CLASS_NAME, "_3K4-L")))
-        # for elements in text_box:
-        #     print(elements)
-        sleep(60)
+        ok_button = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.XPATH, "(//div[contains(@class, '_2Zdgs')])")))
+        ok_button.click()
+
+        # #delete that message for everyone
+        # delete = self.driver.find_element_by_xpath(self.DELETE_BTN)
+        # delete.click()
+        # sleep(1)
+        sleep(2)
 
     def delete_message(self, contato):
         """
