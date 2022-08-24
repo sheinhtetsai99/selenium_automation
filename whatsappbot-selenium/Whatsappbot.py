@@ -28,8 +28,6 @@ class Whatsappbot:
         self.SEND_MESSAGE = '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[2]'
         self.TEXT_BOX = '//*[@id="main"]/div[3]/div/div[2]/div[2]'
         self.driver = webdriver.Chrome(ChromeDriverManager().install())
-        self.options = Options()
-        self.options.add_argument('')
         self.driver.get(self.WPP_URL)
 
     def send_message(self, contato, mensagem):
@@ -65,7 +63,6 @@ class Whatsappbot:
             EC.presence_of_element_located((By.XPATH, self.CHATBOX)))
         chatbox.click()
         chatbox.send_keys("testing out on selenium")
-
         sleep(1.5)
 
         text_box = WebDriverWait(self.driver, 20).until(
