@@ -7,7 +7,6 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.chrome.options import Options
 
 
 class Whatsappbot:
@@ -63,20 +62,41 @@ class Whatsappbot:
             EC.presence_of_element_located((By.XPATH, self.CHATBOX)))
         chatbox.click()
         chatbox.send_keys("testing out on selenium")
+
         sleep(1.5)
+
+        # send_button = WebDriverWait(self.driver, 20).until(
+        #     EC.presence_of_element_located((By.XPATH, self.SEND_MESSAGE)))
+        # send_button.click()
+
+        # sleep(1.5)
 
         text_box = WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located((By.XPATH, '// *[@id="main"]/div[3]/div/div[2]/div[2]/div[12]/div/div[1]/div[1]')))
         print(text_box.text)
 
+        # EC.visibility_of_element_located((By.XPATH, '(//*[@id = "main"]/div[3]/div/div[2]/div[3])[last()]')))
+
+# //*[@id="main"]/div[3]/div/div[2]/div[2]/div[12]/div/div[1]/div[1]
+# //*[@id = "main"]/div[3]/div/div[2]/div[2]/div[13]/div/div[1]/div[1]
+
         hover = ActionChains(self.driver).move_to_element(text_box)
         hover.perform()
 
-        sleep(15)
+        '//*[@id = "main"]/div[3]/div/div[2]/div[2]/div[12]/div/div[1]/span[2]/div/div/span'
+
+
+# //*[@id = "main"]/div[3]/div/div[2]/div[2]/div[12]/div/div[1]/span[2]/div/div/span
+        sleep(20)
         down_arrow = WebDriverWait(self.driver, 20).until(
             EC.visibility_of_element_located((By.XPATH, '// *[@id="main"]/div[3]/div/div[2]/div[2]/div[12]/div/div[1]/span[2]/div/div/span')))
         print(down_arrow.text)
         down_arrow.click()
+
+        # text_box = WebDriverWait(self.driver, 20).until(
+        #     EC.presence_of_element_located((By.CLASS_NAME, "_3K4-L")))
+        # for elements in text_box:
+        #     print(elements)
         sleep(60)
 
     def delete_message(self, contato):
